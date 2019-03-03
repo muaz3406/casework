@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,8 +44,9 @@ public class CampaignApplyingServiceTest {
 
         campaignApplyingService.campaignApplyTo(shoppingCart, new ArrayList<>(Arrays.asList(campaign1)));
 
-        assertThat(BigDecimal.valueOf(100d), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
-        assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(shoppingCart.getCampaignDiscount()));
+        assertThat(shoppingCart.getTotalPrice(),Matchers.comparesEqualTo(BigDecimal.valueOf(100d)));
+        assertThat(shoppingCart.getCampaignDiscount(), Matchers.comparesEqualTo(BigDecimal.ZERO));
+        assertNull(shoppingCart.getCampaign());
     }
 
     @Test
@@ -82,6 +83,7 @@ public class CampaignApplyingServiceTest {
 
         assertThat(BigDecimal.valueOf(570d), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
         assertThat(BigDecimal.valueOf(30d), Matchers.comparesEqualTo(shoppingCart.getCampaignDiscount()));
+        assertEquals(shoppingCart.getCampaign(), campaign1);
     }
 
     @Test
@@ -115,8 +117,9 @@ public class CampaignApplyingServiceTest {
 
         campaignApplyingService.campaignApplyTo(shoppingCart, new ArrayList<>(Arrays.asList(campaign1)));
 
-        assertThat(BigDecimal.valueOf(590d), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
-        assertThat(BigDecimal.valueOf(10d), Matchers.comparesEqualTo(shoppingCart.getCampaignDiscount()));
+        assertThat(shoppingCart.getTotalPrice(), Matchers.comparesEqualTo(BigDecimal.valueOf(590d)));
+        assertThat(shoppingCart.getCampaignDiscount(), Matchers.comparesEqualTo(BigDecimal.valueOf(10d)));
+        assertEquals(shoppingCart.getCampaign(), campaign1);
     }
 
     @Test
@@ -159,7 +162,8 @@ public class CampaignApplyingServiceTest {
 
         campaignApplyingService.campaignApplyTo(shoppingCart, new ArrayList<>(Arrays.asList(campaign1, campaign2, campaign3)));
 
-        assertThat(BigDecimal.valueOf(200d), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
-        assertThat(BigDecimal.valueOf(100d), Matchers.comparesEqualTo(shoppingCart.getCampaignDiscount()));
+        assertThat(shoppingCart.getTotalPrice(), Matchers.comparesEqualTo(BigDecimal.valueOf(200d)));
+        assertThat(shoppingCart.getCampaignDiscount(), Matchers.comparesEqualTo(BigDecimal.valueOf(100d)));
+        assertEquals(shoppingCart.getCampaign(),campaign3);
     }
 }

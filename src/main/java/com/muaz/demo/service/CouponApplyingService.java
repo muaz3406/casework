@@ -18,14 +18,14 @@ public class CouponApplyingService {
     private void updateShoppingCart(Coupon coupon, ShoppingCart shoppingCart) {
 
         if (isApplicableAmounDiscount(coupon, shoppingCart)) {
-            shoppingCart.addAmountCouponDiscount(coupon.getDiscountCost());
+            shoppingCart.addAmountCouponDiscount(coupon);
         }
-        if (isApplicabbleRateDiscount(coupon, shoppingCart)) {
-            shoppingCart.addCouponRateDiscount(coupon.getDiscountRate());
+        if (isApplicableRateDiscount(coupon, shoppingCart)) {
+            shoppingCart.addCouponRateDiscount(coupon);
         }
     }
 
-    private boolean isApplicabbleRateDiscount(Coupon coupon, ShoppingCart shoppingCart) {
+    private boolean isApplicableRateDiscount(Coupon coupon, ShoppingCart shoppingCart) {
 
         if (isNotRateDiscount(coupon)) {
             return false;

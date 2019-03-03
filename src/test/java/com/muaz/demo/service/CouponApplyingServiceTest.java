@@ -14,6 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,8 +59,9 @@ public class CouponApplyingServiceTest {
 
         couponApplyingService.couponApplyingTo(shoppingCart, null);
 
-        assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(shoppingCart.getCouponDiscount()));
-        assertThat(BigDecimal.valueOf(150), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
+        assertThat(shoppingCart.getCouponDiscount(), Matchers.comparesEqualTo(BigDecimal.ZERO));
+        assertThat(shoppingCart.getTotalPrice(), Matchers.comparesEqualTo(BigDecimal.valueOf(150)));
+        assertNull(shoppingCart.getCoupon());
     }
 
     @Test
@@ -66,8 +69,9 @@ public class CouponApplyingServiceTest {
 
         couponApplyingService.couponApplyingTo(shoppingCart, amountCoupon);
 
-        assertThat(BigDecimal.valueOf(150), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
-        assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(shoppingCart.getCouponDiscount()));
+        assertThat(shoppingCart.getTotalPrice(), Matchers.comparesEqualTo(BigDecimal.valueOf(150)));
+        assertThat(shoppingCart.getCouponDiscount(), Matchers.comparesEqualTo(BigDecimal.ZERO));
+        assertNull(shoppingCart.getCoupon());
     }
 
     @Test
@@ -80,16 +84,18 @@ public class CouponApplyingServiceTest {
 
         couponApplyingService.couponApplyingTo(shoppingCart,amountCoupon);
 
-        assertThat(BigDecimal.valueOf(850), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
-        assertThat(BigDecimal.valueOf(300), Matchers.comparesEqualTo(shoppingCart.getCouponDiscount()));
+        assertThat(shoppingCart.getTotalPrice(), Matchers.comparesEqualTo(BigDecimal.valueOf(850)));
+        assertThat(shoppingCart.getCouponDiscount(), Matchers.comparesEqualTo(BigDecimal.valueOf(300)));
+        assertEquals(shoppingCart.getCoupon(), amountCoupon);
     }
 
     @Test
     public void shouldNotApplyRateCouponWhenApplicableMinAmount() {
         couponApplyingService.couponApplyingTo(shoppingCart, rateCoupon);
 
-        assertThat(BigDecimal.valueOf(150), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
-        assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(shoppingCart.getCouponDiscount()));
+        assertThat(shoppingCart.getTotalPrice(), Matchers.comparesEqualTo(BigDecimal.valueOf(150)));
+        assertThat(shoppingCart.getCouponDiscount(),  Matchers.comparesEqualTo(BigDecimal.ZERO));
+        assertNull(shoppingCart.getCoupon());
     }
 
     @Test
@@ -102,6 +108,7 @@ public class CouponApplyingServiceTest {
 
         couponApplyingService.couponApplyingTo(shoppingCart, rateCoupon);
 
-        assertThat(BigDecimal.valueOf(1035), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
+        assertThat(shoppingCart.getTotalPrice(), Matchers.comparesEqualTo(BigDecimal.valueOf(1035)));
+        assertEquals(shoppingCart.getCoupon(),rateCoupon);
     }
 }

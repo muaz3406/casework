@@ -46,8 +46,9 @@ public class CampaignApplyingService {
         }
 
         for (Map.Entry<BigDecimal, Campaign> campaignEntry : campaignMap1.entrySet()) {
-            BigDecimal key = campaignEntry.getKey();
-            shoppingCart.addCampaingDiscount(key);
+            BigDecimal discount = campaignEntry.getKey();
+            Campaign campaign = campaignEntry.getValue();
+            shoppingCart.addCampaingDiscount(discount,campaign);
         }
     }
 

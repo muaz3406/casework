@@ -18,6 +18,8 @@ public class ShoppingCart {
     private BigDecimal campaignDiscount = BigDecimal.ZERO;
     private BigDecimal couponDiscount = BigDecimal.ZERO;
     private BigDecimal deliveryCost = BigDecimal.ZERO;
+    private Coupon coupon;
+    private Campaign campaign;
 
     public void setProductList(List<Product> products) {
 
@@ -41,21 +43,25 @@ public class ShoppingCart {
         }
     }
 
-    public void addAmountCouponDiscount(BigDecimal discountCost) {
-        this.couponDiscount = discountCost;
-        this.totalPrice = totalPrice.subtract(discountCost);
+    public void addAmountCouponDiscount(Coupon coupon) {
+        BigDecimal discount = coupon.getDiscountCost();
+        this.coupon = coupon;
+        this.couponDiscount = discount;
+        this.totalPrice = totalPrice.subtract(discount);
     }
 
 
-    public void addCouponRateDiscount(BigDecimal discountRate) {
-        BigDecimal discount = BigDecimalUtils.getRateDiscount(getTotalPrice(), discountRate);
+    public void addCouponRateDiscount(Coupon coupon) {
+        BigDecimal discount = BigDecimalUtils.getRateDiscount(getTotalPrice(), coupon.getDiscountRate());
+        this.coupon = coupon;
         this.totalPrice = totalPrice.subtract(discount);
         this.couponDiscount = discount;
     }
 
-    public void addCampaingDiscount(BigDecimal discountCost) {
-        this.campaignDiscount = campaignDiscount.add(discountCost);
-        this.totalPrice = totalPrice.subtract(discountCost);
+    public void addCampaingDiscount(BigDecimal discount, Campaign campaign) {
+        this.campaign = campaign;
+        this.campaignDiscount = campaignDiscount.add(discount);
+        this.totalPrice = totalPrice.subtract(discount);
     }
 
     public void addDelivery(BigDecimal cost) {
