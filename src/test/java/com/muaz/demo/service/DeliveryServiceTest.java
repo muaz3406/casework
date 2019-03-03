@@ -12,8 +12,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DeliveryServiceTest {
@@ -50,8 +50,8 @@ public class DeliveryServiceTest {
 
         deliveryService.deliveryApplyTo(deliveryCostModel, shoppingCart);
 
-        assertThat(BigDecimal.valueOf(95.99d), Matchers.comparesEqualTo(shoppingCart.getTotalPrice()));
-        assertThat(BigDecimal.valueOf(25.99d), Matchers.comparesEqualTo(shoppingCart.getDeliveryCost()));
-        assertThat(2.99, is(DeliveryCostModel.FIXED_COST));
+        assertThat(shoppingCart.getTotalPrice(), Matchers.comparesEqualTo(BigDecimal.valueOf(95.99d)));
+        assertThat(shoppingCart.getDeliveryCost(), Matchers.comparesEqualTo(BigDecimal.valueOf(25.99d)));
+        assertThat(DeliveryCostModel.FIXED_COST, equalTo(2.99));
     }
 }
